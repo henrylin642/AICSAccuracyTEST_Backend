@@ -30,6 +30,9 @@ app.add_middleware(
 )
 
 from fastapi.staticfiles import StaticFiles
+
+# Ensure audio directory exists for StaticFiles
+Path("audio").mkdir(parents=True, exist_ok=True)
 app.mount("/audio", StaticFiles(directory="audio"), name="audio")
 
 pipeline = ProcessingPipeline(output_dir="audio")
