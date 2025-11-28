@@ -23,7 +23,12 @@ def _detect_sample_rate(path: Path) -> int:
         return wav_file.getframerate()
 
 
+from gcs_client import get_gcs_credentials
+
 def _build_speech_client() -> speech.SpeechClient:
+    creds = get_gcs_credentials()
+    if creds:
+        return speech.SpeechClient(credentials=creds)
     return speech.SpeechClient()
 
 

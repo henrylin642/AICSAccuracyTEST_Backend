@@ -41,7 +41,7 @@ class ChatbaseConfig:
 class GCPConfig:
     """Google Cloud configuration."""
 
-    credentials_path: Path
+    credentials_path: Path | None
 
 
 _DEFAULT_ENV_VARS: Final[tuple[str, ...]] = (
@@ -88,6 +88,14 @@ def get_chatbase_config() -> ChatbaseConfig:
 
 def get_gcp_config() -> GCPConfig:
     """Return Google Cloud credentials configuration."""
+
+    # Check for Base64 credentials first (Render/Heroku)
+    if os.getenv("GOOGLE_CREDENTIALS_BASE64"):
+        # If Base64 is present, we don't strictly need the file path for Config object
+        # But GCPConfig expects a path. We might need to adjust GCPConfig or return a dummy path.
+        # For now, let's return None or a dummy if using Base64, but GCPConfig expects Path.
+        # Let's make credentials_path Optional in GCPConfig.
+        return GCPConfig(credentials_path=None)
 
     credentials = Path(_require_env("GOOGLE_APPLICATION_CREDENTIALS")).expanduser()
     if not credentials.exists():
