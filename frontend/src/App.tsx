@@ -266,6 +266,12 @@ function App() {
       ws.send(JSON.stringify({ items }));
     };
 
+    ws.onerror = (error) => {
+      console.error('WebSocket Error:', error);
+      setErrorMsg(`WebSocket Connection Failed. Please check if the backend is running and accessible. URL: ${WS_BASE}/ws/test`);
+      setIsTesting(false);
+    };
+
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
       if (data.type === 'update') {
