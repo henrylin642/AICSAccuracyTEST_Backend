@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# Environment variables
+.env
+.env.*
+
+# Google Cloud Credentials
+*client*.json
+GCJSON/
+gen-lang-client-*.json
+
+# Generated files
+audio/
+results/
+temp_upload.csv
+test.csv
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+
+# OS
+.DS_Store
